@@ -22,6 +22,14 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "build")));
 
+//cors
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://tama129.myshopify.com");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
 app.get("/customer_portal/status_page_button", async (req, res) => {
   const id = req.query.id;
   const shop = req.query.shop;
