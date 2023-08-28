@@ -164,7 +164,7 @@ app.get("/script", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "script.js"));
 });
 
-const port = 3000 || process.env.PORT; // Replace with the desired port number
+const port = process.env.PORT || 3000; // Replace with the desired port number
 app.listen(port, () => {
   console.log(`Express server is running on ${BACKEND_URL}:${port}`);
 });
