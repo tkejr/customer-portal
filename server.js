@@ -187,14 +187,13 @@ app.get("/products/:id/", async (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
 app.get("/getScript", (req, res) => {
   // res.send("Hello Test");
   console.log("Sending Script");
   res.sendFile(path.join(__dirname, "build", "script.js"));
+});
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 const port = process.env.PORT || 3000; // Replace with the desired port number
