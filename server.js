@@ -165,10 +165,12 @@ app.get("/products/:id/", async (req, res) => {
   });
 });
 
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
-app.get("/script", (req, res) => {
+
+app.get("/getScript", (req, res) => {
+  // res.send("Hello Test");
   res.sendFile(path.join(__dirname, "build", "script.js"));
 });
 

@@ -171,15 +171,10 @@ const editShippingAddress = async (
       },
     };
 
-    console.log("Request body:", requestBody);
+    console.log("Request body:");
 
     const response = await axios.put(url, requestBody, { headers });
 
-    // Handle the response as per your requirements
-    console.log(
-      "Updated shipping address:",
-      response.data.order.shipping_address
-    );
     return response.data; // You can return the updated order data if needed
   } catch (error) {
     // Handle error
