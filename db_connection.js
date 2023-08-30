@@ -3,7 +3,13 @@ const { Client } = require("pg");
 
 // Function to connect to the PostgreSQL database
 const connectToDB = () => {
-  const db = new Client({ connectionString: process.env.DB_URL });
+  const db = new Client({
+    connectionString: process.env.DB_URL,
+    ssl: {
+      rejectUnauthorized: false, // Allow self-signed certificates
+    },
+  });
+  console.log(db);
   return db;
 };
 

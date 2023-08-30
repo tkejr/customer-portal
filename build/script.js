@@ -9,10 +9,13 @@
       t: timestamp,
       key: token,
     });
-    const request = new Request(`http://${baseurl}/accessToken?${params}`, {
-      method: "GET",
-      mode: "cors",
-    });
+    const request = new Request(
+      `http://${baseurl}/customer_portal/status_page_button?${params}`,
+      {
+        method: "GET",
+        mode: "cors",
+      }
+    );
 
     fetch(request)
       .then((response) => {
