@@ -76,7 +76,7 @@ const CustomerPortal = () => {
     let config = {
       method: "put",
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/orders/${orderDetails.id}?shop=${shop}&action=changeShippingAddress`,
+      url: `https://sheltered-fjord-42415-8da11762a47b.herokuapp.com/orders/${orderDetails.id}?shop=${shop}&action=changeShippingAddress`,
       headers: {},
       data: {
         shippingDetails,
@@ -109,7 +109,7 @@ const CustomerPortal = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/orders/${orderId}`,
+          `https://sheltered-fjord-42415-8da11762a47b.herokuapp.com/orders/${orderId}`,
           {
             params: {
               shop: shop,
@@ -126,7 +126,7 @@ const CustomerPortal = () => {
           const productId = productIds[i];
           if (productId != null) {
             const productResponse = await axios.get(
-              `http://localhost:3000/products/${productId}`,
+              `https://sheltered-fjord-42415-8da11762a47b.herokuapp.com/products/${productId}`,
               {
                 params: {
                   shop: shop,
