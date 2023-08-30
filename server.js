@@ -30,6 +30,28 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/accessToken", async (req, res) => {
+  const id = req.query.id;
+  const shop = req.query.shop;
+  const t = req.query.t;
+  const key = req.query.key;
+
+  let accessToken;
+  try {
+    const data = await getUserFromDB(shop);
+    if (data.length > 0) {
+      const user = data[0]; // Assuming it's the first and only record in the array
+      accessToken = user.access_token; // Assign the access_token to the variable
+    } else {
+      console.log("User not found for the given shop.");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  res.send(`accessToken is ${accessToken}`);
+});
+
 app.get("/customer_portal/status_page_button", async (req, res) => {
   const id = req.query.id;
   const shop = req.query.shop;
@@ -171,6 +193,7 @@ app.get("/", (req, res) => {
 
 app.get("/getScript", (req, res) => {
   // res.send("Hello Test");
+  console.log("Sending Script");
   res.sendFile(path.join(__dirname, "build", "script.js"));
 });
 
