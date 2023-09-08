@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, "build")));
 
 //cors
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://tama129.myshopify.com");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
@@ -53,6 +53,7 @@ app.get("/accessToken", async (req, res) => {
 });
 
 app.get("/customer_portal/status_page_button", async (req, res) => {
+  console.log("Button embed");
   const id = req.query.id;
   const shop = req.query.shop;
   const t = req.query.t;
@@ -72,7 +73,9 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
   }
 
   const order = await getShopifyOrder(shop, id, accessToken);
-  const timeLeft = await getTimeLeft(shop, t, order);
+  var timeLeft = await getTimeLeft(shop, t, order);
+
+  var timeString = formatDuration(timeLeft);
 
   res.setHeader("Content-Type", "text/plain");
   const htmlContent = `
@@ -87,7 +90,7 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
     <p style="margin-left: 10px;">
       ${
         timeLeft > 0
-          ? `You have <b style="font-weight: bold;">${timeLeft} minutes</b> left to edit this order.`
+          ? `You have <b style="font-weight: bold;">${timeString}</b> left to edit this order.`
           : `You can't edit this order as the time to edit has passed.`
       }
     </p>
@@ -200,3 +203,45 @@ const port = process.env.PORT || 3000; // Replace with the desired port number
 app.listen(port, () => {
   console.log(`Express server is running on ${BACKEND_URL}:${port}`);
 });
+
+function formatDuration(seconds) {
+  if (seconds < 0) {
+    return "Invalid duration";
+  }
+
+  // Less than a minute
+  if (seconds < 60) {
+    return `${seconds} second${seconds !== 1 ? "s" : ""}`;
+  }
+
+  // Less than an hour
+  let minutes = Math.floor(seconds / 60);
+  if (minutes < 60) {
+    return `${minutes} minute${minutes !== 1 ? "s" : ""}`;
+  }
+
+  // Less than a day
+  let hours = Math.floor(minutes / 60);
+  minutes %= 60;
+  if (hours < 24) {
+    return `${hours} hour${hours !== 1 ? "s" : ""} ${minutes} minute${
+      minutes !== 1 ? "s" : ""
+    }`;
+  }
+
+  // More than a day
+  let days = Math.floor(hours / 24);
+  hours %= 24;
+  return `${days} day${days !== 1 ? "s" : ""} ${hours} hour${
+    hours !== 1 ? "s" : ""
+  } ${minutes} minute${minutes !== 1 ? "s" : ""}`;
+}
+
+// Test the function
+console.log(formatDuration(10)); // "10 seconds"
+console.log(formatDuration(75)); // "1 minute"
+console.log(formatDuration(1800)); // "30 minutes"
+console.log(formatDuration(7200)); // "2 hours 0 minutes"
+console.log(formatDuration(7500)); // "2 hours 5 minutes"
+console.log(formatDuration(90000)); // "1 day 1 hour 0 minutes"
+console.log(formatDuration(91050)); // "1 day 1 hour 10 minutes"
