@@ -66,10 +66,10 @@ const getCustomPreferences = async (shop) => {
     }
 
     const preferences = preferencesData[0]; // Assuming it's the first and only record in the array
-    const timeToEdit = preferences.time_to_edit;
 
     console.log("Custom Preferences Data:");
-    return timeToEdit;
+    console.log(preferences);
+    return preferences;
   } catch (error) {
     console.error("Error fetching custom preferences:", error.message);
     return null;

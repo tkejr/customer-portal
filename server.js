@@ -11,6 +11,7 @@ const {
   editShippingAddress,
 } = require("./utils");
 const getTimeLeft = require("./helper");
+const getEnabled = require("./helper");
 require("dotenv").config();
 const app = express();
 //Importing from .env file
@@ -74,11 +75,13 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
 
   const order = await getShopifyOrder(shop, id, accessToken);
   var timeLeft = await getTimeLeft(shop, t, order);
+  var enabled = await getEnabled(shop);
 
   var timeString = formatDuration(timeLeft);
 
   res.setHeader("Content-Type", "text/plain");
-  const htmlContent = `
+
+  var htmlContent = `
   <h2>Edit Order</h2>
   <p>Need to make a change? You can change your shipping address, quantities, or options before your order ships.</p>
   <div style="display: flex; align-items: center; justify-content: flex-start;">
@@ -97,6 +100,9 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
   </div>
 `;
 
+  if (!enabled) {
+    htmlContent = ``;
+  }
   res.send(htmlContent);
 });
 
@@ -236,12 +242,3 @@ function formatDuration(seconds) {
     hours !== 1 ? "s" : ""
   } ${minutes} minute${minutes !== 1 ? "s" : ""}`;
 }
-
-// Test the function
-console.log(formatDuration(10)); // "10 seconds"
-console.log(formatDuration(75)); // "1 minute"
-console.log(formatDuration(1800)); // "30 minutes"
-console.log(formatDuration(7200)); // "2 hours 0 minutes"
-console.log(formatDuration(7500)); // "2 hours 5 minutes"
-console.log(formatDuration(90000)); // "1 day 1 hour 0 minutes"
-console.log(formatDuration(91050)); // "1 day 1 hour 10 minutes"
