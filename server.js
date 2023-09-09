@@ -10,8 +10,8 @@ const {
   editShopifyOrder,
   editShippingAddress,
 } = require("./utils");
-const getTimeLeft = require("./helper");
-const getEnabled = require("./helper");
+const { getTimeLeft, getEnabled } = require("./helper");
+
 require("dotenv").config();
 const app = express();
 //Importing from .env file
@@ -78,6 +78,7 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
   var enabled = await getEnabled(shop);
 
   var timeString = formatDuration(timeLeft);
+  console.log("TimeString", timeLeft);
 
   res.setHeader("Content-Type", "text/plain");
 
@@ -100,9 +101,9 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
   </div>
 `;
 
-  if (!enabled) {
-    htmlContent = ``;
-  }
+  // if (!enabled) {
+  //   htmlContent = ``;
+  // }
   res.send(htmlContent);
 });
 
@@ -211,6 +212,7 @@ app.listen(port, () => {
 });
 
 function formatDuration(seconds) {
+  console.log(seconds);
   if (seconds < 0) {
     return "Invalid duration";
   }

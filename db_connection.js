@@ -9,7 +9,7 @@ const connectToDB = () => {
       rejectUnauthorized: false, // Allow self-signed certificates
     },
   });
-  console.log(db);
+
   return db;
 };
 

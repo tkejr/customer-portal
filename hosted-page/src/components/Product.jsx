@@ -93,7 +93,7 @@ const Product = ({ products, orderId, shop, setUpdated, updated }) => {
     let config = {
       method: "put",
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/orders/${orderId}?shop=${shop}&lineItemId=${lineItemId}&quantity=${quantity}&action=changeQuantity`,
+      url: `https://editify-cportal.kejrtech.com/orders/${orderId}?shop=${shop}&lineItemId=${lineItemId}&quantity=${quantity}&action=changeQuantity`,
       headers: {},
     };
     console.log(config);

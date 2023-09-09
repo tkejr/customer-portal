@@ -19,5 +19,7 @@ const getTimeLeft = async (shop, currentTime, order) => {
   return Math.max(timeLeft, 0);
 };
 
-module.exports = getTimeLeft;
-module.exports = getEnabled;
+module.exports = {
+  getTimeLeft: getTimeLeft,
+  getEnabled: getEnabled,
+};
