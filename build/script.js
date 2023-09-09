@@ -3,6 +3,7 @@
     const scriptId = "customer-portal_button";
     const script = document.querySelector("#" + scriptId);
     const { timestamp, token, baseurl } = script.dataset;
+    console.log(Shopify);
     const params = new URLSearchParams({
       id: Shopify.checkout.order_id,
       shop: Shopify.shop,

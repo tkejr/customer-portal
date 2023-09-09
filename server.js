@@ -59,7 +59,6 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
   const shop = req.query.shop;
   const t = req.query.t;
   const key = req.query.key;
-
   let accessToken;
   try {
     const data = await getUserFromDB(shop);
@@ -101,9 +100,9 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
   </div>
 `;
 
-  // if (!enabled) {
-  //   htmlContent = ``;
-  // }
+  if (!enabled) {
+    htmlContent = ``;
+  }
   res.send(htmlContent);
 });
 
