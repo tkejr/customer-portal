@@ -35,7 +35,8 @@ const style = {
 };
 
 const Product = ({ products, orderId, shop, setUpdated, updated }) => {
-  const backendUrl = process.env.BACKEND_URL || "http://localhost:3000";
+  const backendUrl =
+    process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
   const [open, setOpen] = useState(false);
   const [quantityOpen, setQuantityOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);

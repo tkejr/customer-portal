@@ -55,7 +55,8 @@ var currency_symbols = {
 };
 
 const CustomerPortal = () => {
-  const backendUrl = process.env.BACKEND_URL || "http://localhost:3000";
+  const backendUrl =
+    process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
   console.log("======= This is the backend url ===========");
   console.log(backendUrl);
   const [orderDetails, setOrderDetails] = useState({});
