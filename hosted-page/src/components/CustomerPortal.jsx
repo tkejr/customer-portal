@@ -112,7 +112,7 @@ const CustomerPortal = () => {
     setShop(shop);
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/${orderId}`, {
+        const response = await axios.get(`${backendUrl}/orders/${orderId}/`, {
           params: {
             shop: shop,
           },
