@@ -19,6 +19,7 @@ import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import MinimizeIcon from "@mui/icons-material/Minimize";
 import axios from "axios";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -34,6 +35,7 @@ const style = {
 };
 
 const Product = ({ products, orderId, shop, setUpdated, updated }) => {
+  const backendUrl = process.env.BACKEND_URL || "http://localhost:3000";
   const [open, setOpen] = useState(false);
   const [quantityOpen, setQuantityOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -93,7 +95,7 @@ const Product = ({ products, orderId, shop, setUpdated, updated }) => {
     let config = {
       method: "put",
       maxBodyLength: Infinity,
-      url: `https://editify-cportal.kejrtech.com/orders/${orderId}?shop=${shop}&lineItemId=${lineItemId}&quantity=${quantity}&action=changeQuantity`,
+      url: `${backendUrl}/orders/${orderId}?shop=${shop}&lineItemId=${lineItemId}&quantity=${quantity}&action=changeQuantity`,
       headers: {},
     };
     console.log(config);

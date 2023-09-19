@@ -55,6 +55,8 @@ var currency_symbols = {
 };
 
 const CustomerPortal = () => {
+  const backendUrl = process.env.BACKEND_URL || "http://localhost:3000";
+  console.log(backendUrl);
   const [orderDetails, setOrderDetails] = useState({});
   const [products, setProducts] = useState([]);
   const [shop, setShop] = useState("");
@@ -76,7 +78,7 @@ const CustomerPortal = () => {
     let config = {
       method: "put",
       maxBodyLength: Infinity,
-      url: `https://sheltered-fjord-42415-8da11762a47b.herokuapp.com/orders/${orderDetails.id}?shop=${shop}&action=changeShippingAddress`,
+      url: `${backendUrl}/orders/${orderDetails.id}?shop=${shop}&action=changeShippingAddress`,
       headers: {},
       data: {
         shippingDetails,
@@ -108,14 +110,11 @@ const CustomerPortal = () => {
     setShop(shop);
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `https://sheltered-fjord-42415-8da11762a47b.herokuapp.com/orders/${orderId}`,
-          {
-            params: {
-              shop: shop,
-            },
-          }
-        );
+        const response = await axios.get(`${backendUrl}/${orderId}`, {
+          params: {
+            shop: shop,
+          },
+        });
         // Handle the response here, e.g., update state with the data
         const orderDetails = response.data.data;
         const productIds = orderDetails.line_items.map(
@@ -126,7 +125,7 @@ const CustomerPortal = () => {
           const productId = productIds[i];
           if (productId != null) {
             const productResponse = await axios.get(
-              `https://sheltered-fjord-42415-8da11762a47b.herokuapp.com/products/${productId}`,
+              `${backendUrl}/${productId}`,
               {
                 params: {
                   shop: shop,

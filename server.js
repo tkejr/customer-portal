@@ -21,7 +21,7 @@ app.use(cors());
 //Body Parser
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "public")));
 
 //cors
 app.use((req, res, next) => {
@@ -100,9 +100,9 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
   </div>
 `;
 
-  if (!enabled) {
-    htmlContent = ``;
-  }
+  // if (!enabled) {
+  //   htmlContent = ``;
+  // }
   res.send(htmlContent);
 });
 
@@ -132,6 +132,7 @@ app.get("/orders/:id/", async (req, res) => {
 app.put("/orders/:id/", async (req, res) => {
   const id = req.params.id;
   const shop = req.query.shop;
+  console.log(shop);
   const lineItemId = req.query.lineItemId;
   const quantity = req.query.quantity;
   const action = req.query.action;
@@ -199,10 +200,11 @@ app.get("/products/:id/", async (req, res) => {
 app.get("/getScript", (req, res) => {
   // res.send("Hello Test");
   console.log("Sending Script");
-  res.sendFile(path.join(__dirname, "build", "script.js"));
+  res.sendFile(path.join(__dirname, "public", "script.js"));
 });
+
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.status(404).send("404 - Not Found");
 });
 
 const port = process.env.PORT || 3000; // Replace with the desired port number
