@@ -56,6 +56,7 @@ var currency_symbols = {
 
 const CustomerPortal = () => {
   const backendUrl = process.env.BACKEND_URL || "http://localhost:3000";
+  console.log("======= This is the backend url ===========");
   console.log(backendUrl);
   const [orderDetails, setOrderDetails] = useState({});
   const [products, setProducts] = useState([]);
