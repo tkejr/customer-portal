@@ -127,7 +127,7 @@ const CustomerPortal = () => {
           const productId = productIds[i];
           if (productId != null) {
             const productResponse = await axios.get(
-              `${backendUrl}/${productId}`,
+              `${backendUrl}/products/${productId}/`,
               {
                 params: {
                   shop: shop,
