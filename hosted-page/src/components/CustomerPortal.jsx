@@ -17,6 +17,7 @@ import {
   Paper,
   CircularProgress,
   Modal,
+  Link,
 } from "@mui/material/";
 import TextField from "@mui/material/TextField";
 
@@ -300,7 +301,12 @@ const CustomerPortal = () => {
             </Grid>
 
             <Grid item xs={5}>
-              <Box bgcolor="lightgray" height="100%" pt={20}>
+              <Box bgcolor="lightgray" pl={30} pt={5}>
+                <Link href="https://editify.kejrtech.com" external>
+                  Powered By Editify
+                </Link>
+              </Box>
+              <Box bgcolor="lightgray" height="100%" pt={10}>
                 <Typography
                   variant="body1"
                   pt={2}
