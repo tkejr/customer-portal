@@ -109,6 +109,11 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
 app.get("/orders/:id/", async (req, res) => {
   const id = req.params.id;
   const shop = req.query.shop;
+  console.log(id);
+  if (id == null || shop == null) {
+    res.status(400).send("Parameters Not defined");
+    return;
+  }
   let accessToken;
   try {
     const data = await getUserFromDB(shop);
@@ -176,6 +181,10 @@ app.put("/orders/:id/", async (req, res) => {
 app.get("/products/:id/", async (req, res) => {
   const id = req.params.id;
   const shop = req.query.shop;
+  if (id == null || shop == null) {
+    res.status(400).send("Parameters Not defined");
+    return;
+  }
   let accessToken;
   try {
     const data = await getUserFromDB(shop);
