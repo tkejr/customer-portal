@@ -145,7 +145,7 @@ const CustomerPortal = () => {
           if (line_item.fulfillable_quantity === 0) continue;
           const cleaned_up_line_item = {
             id: line_item.id,
-            img: product?.image.src,
+            img: product?.image?.src,
             title: line_item.title,
             price:
               currency_symbols[response.data.data.currency] + line_item.price,
@@ -194,9 +194,6 @@ const CustomerPortal = () => {
               }}
             >
               <Box mt={5} ml={5} pl={2}>
-                <Typography variant="body1" align="left" component="div" mb={1}>
-                  {shop}
-                </Typography>
                 <Typography
                   variant="h5"
                   color="#4287f5"
@@ -299,11 +296,6 @@ const CustomerPortal = () => {
             </Grid>
 
             <Grid item xs={5}>
-              <Box bgcolor="lightgray" pl={30} pt={5}>
-                <Link href="https://www.shopvana.io" external>
-                  Powered By Editify
-                </Link>
-              </Box>
               <Box bgcolor="lightgray" height="100%" pt={10}>
                 <Typography
                   variant="body1"
