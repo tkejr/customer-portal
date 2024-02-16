@@ -58,6 +58,7 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
   const id = req.query.id;
   const shop = req.query.shop;
   const t = req.query.t;
+  console.log(t);
   const key = req.query.key;
   let accessToken;
   try {

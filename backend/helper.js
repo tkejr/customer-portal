@@ -7,7 +7,10 @@ const getEnabled = async (shop) => {
 
 const getTimeLeft = async (shop, currentTime, order) => {
   const orderTime = new Date(order.order.created_at).getTime(); // Convert to milliseconds
-  const currentDateTime = new Date(currentTime * 1000).getTime(); // Convert to milliseconds
+  const currentDateTime = currentTime; // Already in milliseconds
+
+  console.log("Order time: ", orderTime);
+  console.log("Current time: ", currentDateTime);
 
   const timeSinceOrder = (currentDateTime - orderTime) / 1000; // Convert to seconds
   const pref = await getCustomPreferences(shop);

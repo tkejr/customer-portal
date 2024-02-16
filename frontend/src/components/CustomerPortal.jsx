@@ -300,7 +300,7 @@ const CustomerPortal = () => {
 
             <Grid item xs={5}>
               <Box bgcolor="lightgray" pl={30} pt={5}>
-                <Link href="https://editify.kejrtech.com" external>
+                <Link href="https://www.shopvana.io" external>
                   Powered By Editify
                 </Link>
               </Box>
