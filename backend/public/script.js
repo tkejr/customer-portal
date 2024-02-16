@@ -62,8 +62,13 @@ function fetchAndAddContentBox(baseurl, params) {
 
 function initialize() {
   const timestamp = new Date().getTime();
+  var orderId = Shopify.checkout.order_id;
+  if (orderId == null || orderId == "" || orderId == undefined) {
+    const parsedUrl = new URL(window.location.href);
+    orderId = parsedUrl.searchParams.get("order_id");
+  }
   const params = new URLSearchParams({
-    id: Shopify.checkout.order_id,
+    id: orderId,
     shop: Shopify.shop,
     t: timestamp,
   });
