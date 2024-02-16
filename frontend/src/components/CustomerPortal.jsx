@@ -18,7 +18,7 @@ import {
   CircularProgress,
   Modal,
   Link,
-} from "@mui/material/";
+} from "@mui/material";
 import TextField from "@mui/material/TextField";
 
 import { styled } from "@mui/material/styles";
@@ -58,8 +58,6 @@ var currency_symbols = {
 const CustomerPortal = () => {
   const backendUrl =
     process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
-  console.log("======= This is the backend url ===========");
-  console.log(backendUrl);
   const [orderDetails, setOrderDetails] = useState({});
   const [products, setProducts] = useState([]);
   const [shop, setShop] = useState("");
@@ -225,38 +223,38 @@ const CustomerPortal = () => {
                           align="left"
                           component="div"
                         >
-                          {orderDetails.shipping_address.first_name}{" "}
-                          {orderDetails.shipping_address.last_name}
+                          {orderDetails.shipping_address?.first_name}
+                          {orderDetails.shipping_address?.last_name}
                         </Typography>
                         <Typography
                           variant="body2"
                           align="left"
                           component="div"
                         >
-                          {orderDetails.shipping_address.address1}
+                          {orderDetails.shipping_address?.address1}
                         </Typography>
                         <Typography
                           variant="body2"
                           align="left"
                           component="div"
                         >
-                          {orderDetails.shipping_address.city},{" "}
-                          {orderDetails.shipping_address.province_code}{" "}
-                          {orderDetails.shipping_address.zip}
+                          {orderDetails.shipping_address?.city}{" "}
+                          {orderDetails.shipping_address?.province_code}{" "}
+                          {orderDetails.shipping_address?.zip}
                         </Typography>
                         <Typography
                           variant="body2"
                           align="left"
                           component="div"
                         >
-                          {orderDetails.shipping_address.country}
+                          {orderDetails.shipping_address?.country}
                         </Typography>
                         <Typography
                           variant="body2"
                           align="left"
                           component="div"
                         >
-                          {orderDetails.shipping_address.phone}
+                          {orderDetails.shipping_address?.phone}
                         </Typography>
                       </CardContent>
                     </Grid>
@@ -330,7 +328,7 @@ const CustomerPortal = () => {
                 >
                   BILLING ADDRESS
                 </Typography>
-                <Typography variant="body2" align="left" pl={4}>
+                {/* <Typography variant="body2" align="left" pl={4}>
                   {orderDetails.billing_address.first_name}{" "}
                   {orderDetails.billing_address.last_name}
                 </Typography>
@@ -347,7 +345,7 @@ const CustomerPortal = () => {
                 </Typography>
                 <Typography variant="body2" align="left" pl={4}>
                   {orderDetails.billing_address.phone}
-                </Typography>
+                </Typography> */}
                 <Box padding={3}>
                   <Divider />
                 </Box>
@@ -424,6 +422,7 @@ const CustomerPortal = () => {
           >
             <Box sx={{ ...style }}>
               <h3 id="child-modal-title">Shipping Details</h3>
+
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <TextField
@@ -431,7 +430,7 @@ const CustomerPortal = () => {
                     label="First Name"
                     variant="outlined"
                     fullWidth
-                    value={shippingDetails.first_name}
+                    value={shippingDetails?.first_name}
                     onChange={(e) => {
                       setShippingDetails({
                         ...shippingDetails,
@@ -446,7 +445,7 @@ const CustomerPortal = () => {
                     label="Last Name"
                     variant="outlined"
                     fullWidth
-                    value={shippingDetails.last_name}
+                    value={shippingDetails?.last_name}
                     onChange={(e) => {
                       setShippingDetails({
                         ...shippingDetails,
@@ -461,7 +460,7 @@ const CustomerPortal = () => {
                     label="Address"
                     variant="outlined"
                     fullWidth
-                    value={shippingDetails.address1}
+                    value={shippingDetails?.address1}
                     onChange={(e) => {
                       setShippingDetails({
                         ...shippingDetails,
@@ -476,7 +475,7 @@ const CustomerPortal = () => {
                     label="City"
                     variant="outlined"
                     fullWidth
-                    value={shippingDetails.city}
+                    value={shippingDetails?.city}
                     onChange={(e) => {
                       setShippingDetails({
                         ...shippingDetails,
@@ -491,7 +490,7 @@ const CustomerPortal = () => {
                     label="State"
                     variant="outlined"
                     fullWidth
-                    value={shippingDetails.province}
+                    value={shippingDetails?.province}
                     onChange={(e) => {
                       setShippingDetails({
                         ...shippingDetails,
@@ -506,7 +505,7 @@ const CustomerPortal = () => {
                     label="Zip"
                     variant="outlined"
                     fullWidth
-                    value={shippingDetails.zip}
+                    value={shippingDetails?.zip}
                     onChange={(e) => {
                       setShippingDetails({
                         ...shippingDetails,
@@ -521,7 +520,7 @@ const CustomerPortal = () => {
                     label="Country"
                     variant="outlined"
                     fullWidth
-                    value={shippingDetails.country}
+                    value={shippingDetails?.country}
                     onChange={(e) => {
                       setShippingDetails({
                         ...shippingDetails,
@@ -536,7 +535,7 @@ const CustomerPortal = () => {
                     label="Phone"
                     variant="outlined"
                     fullWidth
-                    value={shippingDetails.phone}
+                    value={shippingDetails?.phone}
                     onChange={(e) => {
                       setShippingDetails({
                         ...shippingDetails,
