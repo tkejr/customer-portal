@@ -68,7 +68,7 @@ function initialize() {
     t: timestamp,
   });
 
-  const baseurl = "localhost:3000";
+  const baseurl = "editify-cportal-api.shopvana.io";
   fetchAndAddContentBox(baseurl, params);
 }
 

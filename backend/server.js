@@ -89,7 +89,7 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
   <div style="display: flex; align-items: center; justify-content: flex-start;">
     ${
       timeLeft > 0
-        ? `<a class="btn btn--size-small" href="https://${shop}/pages/testing/orders?orderId=${id}&key=69b06e41078de98be12918a268e00fe7c4e6ac8c27f98feac2c20d8722f7eff9&amp;shop=${shop}">Edit order</a>`
+        ? `<a class="btn btn--size-small" href="https://${shop}/pages/customer-portal/orders?orderId=${id}&key=69b06e41078de98be12918a268e00fe7c4e6ac8c27f98feac2c20d8722f7eff9&amp;shop=${shop}">Edit order</a>`
         : `<button class="btn btn--size-small" style="background-color: grey;" disabled>Edit order</button>`
     }
     <p style="margin-left: 10px;">
