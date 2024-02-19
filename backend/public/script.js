@@ -79,6 +79,7 @@ function initialize() {
   if (isLocal == "true") {
     baseurl = "localhost:3000";
   }
+  console.log("Base URL: ", baseurl);
   fetchAndAddContentBox(baseurl, params);
 }
 
