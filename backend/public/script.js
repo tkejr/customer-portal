@@ -63,8 +63,8 @@ function fetchAndAddContentBox(baseurl, params) {
 function initialize() {
   const timestamp = new Date().getTime();
   var orderId = Shopify.checkout?.order_id;
+  const parsedUrl = new URL(window.location.href);
   if (orderId == null || orderId == "" || orderId == undefined) {
-    const parsedUrl = new URL(window.location.href);
     orderId = parsedUrl.searchParams.get("order_id");
   }
 
@@ -74,7 +74,11 @@ function initialize() {
     t: timestamp,
   });
 
-  const baseurl = "editify-cportal-api.shopvana.io";
+  var baseurl = "editify-cportal-api.shopvana.io";
+  const isLocal = parsedUrl.searchParams.get("is_local");
+  if (isLocal == "true") {
+    baseurl = "localhost:3000";
+  }
   fetchAndAddContentBox(baseurl, params);
 }
 
