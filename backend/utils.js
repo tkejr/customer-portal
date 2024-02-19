@@ -16,7 +16,6 @@ const getShopifyOrder = async (shop, id, accessToken) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching data from Shopify API:", error.message);
-    throw error;
   }
 };
 
@@ -118,7 +117,6 @@ const editShopifyOrder = async (
   } catch (error) {
     // Handle any errors that occurred during the request
     console.error("Error:", error.message);
-    throw error;
   }
 };
 
@@ -138,7 +136,6 @@ const getProductDetails = async (shop, id, accessToken) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching data from Shopify API:", error.message);
-    throw error;
   }
 };
 
@@ -179,7 +176,6 @@ const editShippingAddress = async (
   } catch (error) {
     // Handle error
     console.error("Error editing shipping address:", error);
-    throw error; // You can rethrow the error or handle it as needed
   }
 };
 
