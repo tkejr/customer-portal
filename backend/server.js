@@ -74,9 +74,11 @@ app.get("/customer_portal/status_page_button", async (req, res) => {
   }
   console.log(shop);
 
+  console.log(accessToken);
   const order = await getShopifyOrder(shop, id, accessToken);
   var timeLeft = await getTimeLeft(shop, t, order);
   var enabled = await getEnabled(shop);
+  console.log("Order", order);
 
   var timeString = formatDuration(timeLeft);
   console.log("TimeString", timeLeft);
@@ -125,7 +127,6 @@ app.get("/orders/:id/", async (req, res) => {
   } catch (error) {
     console.error(error);
   }
-
   const data = await getShopifyOrder(shop, id, accessToken);
   console.log("In the orders route");
   res.json({

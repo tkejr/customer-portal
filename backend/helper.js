@@ -6,6 +6,7 @@ const getEnabled = async (shop) => {
 };
 
 const getTimeLeft = async (shop, currentTime, order) => {
+  console.log("Order: ", order);
   const orderTime = new Date(order.order.created_at).getTime(); // Convert to milliseconds
   const currentDateTime = currentTime; // Already in milliseconds
 
