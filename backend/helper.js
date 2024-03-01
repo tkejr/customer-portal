@@ -23,7 +23,41 @@ const getTimeLeft = async (shop, currentTime, order) => {
   return Math.max(timeLeft, 0);
 };
 
+const formatDuration = (seconds) => {
+  if (seconds < 0) {
+    return "Invalid duration";
+  }
+
+  // Less than a minute
+  if (seconds < 60) {
+    return `${seconds} second${seconds !== 1 ? "s" : ""}`;
+  }
+
+  // Less than an hour
+  let minutes = Math.floor(seconds / 60);
+  if (minutes < 60) {
+    return `${minutes} minute${minutes !== 1 ? "s" : ""}`;
+  }
+
+  // Less than a day
+  let hours = Math.floor(minutes / 60);
+  minutes %= 60;
+  if (hours < 24) {
+    return `${hours} hour${hours !== 1 ? "s" : ""} ${minutes} minute${
+      minutes !== 1 ? "s" : ""
+    }`;
+  }
+
+  // More than a day
+  let days = Math.floor(hours / 24);
+  hours %= 24;
+  return `${days} day${days !== 1 ? "s" : ""} ${hours} hour${
+    hours !== 1 ? "s" : ""
+  } ${minutes} minute${minutes !== 1 ? "s" : ""}`;
+};
+
 module.exports = {
   getTimeLeft: getTimeLeft,
   getEnabled: getEnabled,
+  formatDuration: formatDuration,
 };

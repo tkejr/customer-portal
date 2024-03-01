@@ -4,12 +4,6 @@ function isThankYouPage(path) {
   return path.includes("/checkout/thank_you") || path.includes("/orders/");
 }
 
-function addContentBoxToOrderStatus(data) {
-  if (data) {
-    Shopify.Checkout.OrderStatus.addContentBox(data);
-  }
-}
-
 function fetchAndAddContentBox(baseurl, params) {
   // Add a content box with a loading indicator
   const loadingContent = `
@@ -63,6 +57,10 @@ function fetchAndAddContentBox(baseurl, params) {
 function initialize() {
   const timestamp = new Date().getTime();
   var orderId = Shopify.checkout?.order_id;
+  if (orderId == null || orderId == "" || orderId == undefined) {
+    return;
+  }
+
   const parsedUrl = new URL(window.location.href);
   if (orderId == null || orderId == "" || orderId == undefined) {
     orderId = parsedUrl.searchParams.get("order_id");
