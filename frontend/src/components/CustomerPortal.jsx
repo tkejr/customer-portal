@@ -11,13 +11,9 @@ import {
   Box,
   CardActions,
   Typography,
-  CardMedia,
-  CardActionArea,
   Divider,
-  Paper,
   CircularProgress,
   Modal,
-  Link,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
@@ -58,6 +54,8 @@ var currency_symbols = {
 const CustomerPortal = () => {
   const backendUrl =
     process.env.REACT_APP_BACKEND_URL || "http://localhost:3000";
+
+  console.log(backendUrl);
   const [orderDetails, setOrderDetails] = useState({});
   const [products, setProducts] = useState([]);
   const [shop, setShop] = useState("");
@@ -164,14 +162,415 @@ const CustomerPortal = () => {
       }
     };
 
-    fetchData();
+    if (orderId) {
+      fetchData();
+    } else {
+      setIsLoading(false);
+    }
   }, [updated]);
 
+  const orderPage = () => {
+    return (
+      <>
+        {isLoading ? (
+          <div>
+            {" "}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                paddingTop: "50vh",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          </div>
+        ) : (
+          <div>
+            <Grid container>
+              <Grid
+                item
+                xs={7}
+                sx={{
+                  height: "100vh",
+                }}
+              >
+                <Box mt={5} ml={5} pl={2}>
+                  <Typography
+                    variant="h5"
+                    color="#4287f5"
+                    component="div"
+                    align="left"
+                  >
+                    Editing Order {orderId}
+                  </Typography>
+                </Box>
+                <Box mt={5} ml={5} mr={5}>
+                  <Card variant="outlined">
+                    <Grid container spacing={2}>
+                      <Grid item xs={9}>
+                        <CardContent>
+                          <Typography
+                            variant="body1"
+                            align="left"
+                            component="div"
+                          >
+                            SHIPPING ADDRESS
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            align="left"
+                            component="div"
+                          >
+                            {orderDetails.shipping_address?.first_name}
+                            {orderDetails.shipping_address?.last_name}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            align="left"
+                            component="div"
+                          >
+                            {orderDetails.shipping_address?.address1}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            align="left"
+                            component="div"
+                          >
+                            {orderDetails.shipping_address?.city}{" "}
+                            {orderDetails.shipping_address?.province_code}{" "}
+                            {orderDetails.shipping_address?.zip}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            align="left"
+                            component="div"
+                          >
+                            {orderDetails.shipping_address?.country}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            align="left"
+                            component="div"
+                          >
+                            {orderDetails.shipping_address?.phone}
+                          </Typography>
+                        </CardContent>
+                      </Grid>
+                      <Grid item xs={3}>
+                        <CardActions>
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            size="small"
+                            sx={{
+                              width: "100%",
+                            }}
+                            onClick={() => {
+                              handleOpen();
+                            }}
+                          >
+                            Change
+                          </Button>
+                        </CardActions>
+                      </Grid>
+                    </Grid>
+                    <Box padding={1}>
+                      <Divider />
+                    </Box>
+                    <CardContent>
+                      <Typography variant="body1" align="left" component="div">
+                        SHIIPING METHOD
+                      </Typography>
+                      <Typography variant="body2" align="left" component="div">
+                        {orderDetails.shipping_lines[0]?.title}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Box>
+                <Product
+                  products={products}
+                  orderId={orderDetails.id}
+                  shop={shop}
+                  updated={updated}
+                  setUpdated={setUpdated}
+                />
+              </Grid>
+
+              <Grid item xs={5}>
+                <Box bgcolor="lightgray" height="100%" pt={10}>
+                  <Typography
+                    variant="body1"
+                    pt={2}
+                    align="left"
+                    pl={4}
+                    fontWeight="bold"
+                  >
+                    PAYMENT METHOD
+                  </Typography>
+                  <Typography variant="body2" align="left" pl={4}>
+                    {orderDetails.payment_gateway_names} -{" "}
+                    {currency_symbols[orderDetails.currency]}
+                    {orderDetails.current_total_price}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    align="left"
+                    mt={3}
+                    pl={4}
+                    fontWeight="medium"
+                  >
+                    BILLING ADDRESS
+                  </Typography>
+                  {/* <Typography variant="body2" align="left" pl={4}>
+                    {orderDetails.billing_address.first_name}{" "}
+                    {orderDetails.billing_address.last_name}
+                  </Typography>
+                  <Typography variant="body2" align="left" pl={4}>
+                    {orderDetails.billing_address.address1}
+                  </Typography>
+                  <Typography variant="body2" align="left" pl={4}>
+                    {orderDetails.billing_address.city},{" "}
+                    {orderDetails.billing_address.province_code}{" "}
+                    {orderDetails.billing_address.zip}
+                  </Typography>
+                  <Typography variant="body2" align="left" pl={4}>
+                    {orderDetails.billing_address.country}
+                  </Typography>
+                  <Typography variant="body2" align="left" pl={4}>
+                    {orderDetails.billing_address.phone}
+                  </Typography> */}
+                  <Box padding={3}>
+                    <Divider />
+                  </Box>
+                  <Grid container spacing={2}>
+                    <Grid item xs={8}>
+                      <Typography variant="body2" align="left" pl={4}>
+                        Subtotal
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography variant="body2" align="left" pl={4}>
+                        {currency_symbols[orderDetails.currency]}{" "}
+                        {orderDetails.current_subtotal_price}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Typography variant="body2" align="left" pl={4}>
+                        Discount
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography variant="body2" align="left" pl={4}>
+                        {currency_symbols[orderDetails.currency]}{" "}
+                        {orderDetails.current_total_discounts}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Typography variant="body2" align="left" pl={4}>
+                        Shipping
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography variant="body2" align="left" pl={4}>
+                        {currency_symbols[orderDetails.currency]}{" "}
+                        {
+                          orderDetails.total_shipping_price_set.shop_money
+                            .amount
+                        }
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Typography variant="body2" align="left" pl={4}>
+                        Taxes
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography variant="body2" align="left" pl={4}>
+                        {currency_symbols[orderDetails.currency]}{" "}
+                        {orderDetails.current_total_tax}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Box padding={3}>
+                    <Divider />
+                  </Box>
+                  <Grid container spacing={2}>
+                    <Grid item xs={8}>
+                      <Typography variant="body2" align="left" pl={4}>
+                        Total
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography variant="body2" align="left" pl={4}>
+                        {currency_symbols[orderDetails.currency]}{" "}
+                        {orderDetails.current_total_price}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Grid>
+            </Grid>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="child-modal-title"
+              aria-describedby="child-modal-description"
+            >
+              <Box sx={{ ...style }}>
+                <h3 id="child-modal-title">Shipping Details</h3>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-basic"
+                      label="First Name"
+                      variant="outlined"
+                      fullWidth
+                      value={shippingDetails?.first_name}
+                      onChange={(e) => {
+                        setShippingDetails({
+                          ...shippingDetails,
+                          first_name: e.target.value,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Last Name"
+                      variant="outlined"
+                      fullWidth
+                      value={shippingDetails?.last_name}
+                      onChange={(e) => {
+                        setShippingDetails({
+                          ...shippingDetails,
+                          last_name: e.target.value,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Address"
+                      variant="outlined"
+                      fullWidth
+                      value={shippingDetails?.address1}
+                      onChange={(e) => {
+                        setShippingDetails({
+                          ...shippingDetails,
+                          address1: e.target.value,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-basic"
+                      label="City"
+                      variant="outlined"
+                      fullWidth
+                      value={shippingDetails?.city}
+                      onChange={(e) => {
+                        setShippingDetails({
+                          ...shippingDetails,
+                          city: e.target.value,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-basic"
+                      label="State"
+                      variant="outlined"
+                      fullWidth
+                      value={shippingDetails?.province}
+                      onChange={(e) => {
+                        setShippingDetails({
+                          ...shippingDetails,
+                          province: e.target.value,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Zip"
+                      variant="outlined"
+                      fullWidth
+                      value={shippingDetails?.zip}
+                      onChange={(e) => {
+                        setShippingDetails({
+                          ...shippingDetails,
+                          zip: e.target.value,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Country"
+                      variant="outlined"
+                      fullWidth
+                      value={shippingDetails?.country}
+                      onChange={(e) => {
+                        setShippingDetails({
+                          ...shippingDetails,
+                          country: e.target.value,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Phone"
+                      variant="outlined"
+                      fullWidth
+                      value={shippingDetails?.phone}
+                      onChange={(e) => {
+                        setShippingDetails({
+                          ...shippingDetails,
+                          phone: e.target.value,
+                        });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6} align="right">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        changeAddress();
+                      }}
+                    >
+                      Save
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Modal>
+            {isAlertVisible && (
+              <AlertComponent text="Shipping Address Changed" />
+            )}
+          </div>
+        )}
+      </>
+    );
+  };
   return (
     <>
-      {isLoading ? (
-        <div>
-          {" "}
+      {orderId ? (
+        orderPage()
+      ) : (
+        <>
           <Box
             sx={{
               display: "flex",
@@ -180,379 +579,12 @@ const CustomerPortal = () => {
               paddingTop: "50vh",
             }}
           >
-            <CircularProgress />
+            <h1>
+              No order found. Please make sure you are logged in and have an
+              order.
+            </h1>
           </Box>
-        </div>
-      ) : (
-        <div>
-          <Grid container>
-            <Grid
-              item
-              xs={7}
-              sx={{
-                height: "100vh",
-              }}
-            >
-              <Box mt={5} ml={5} pl={2}>
-                <Typography
-                  variant="h5"
-                  color="#4287f5"
-                  component="div"
-                  align="left"
-                >
-                  Editing Order {orderId}
-                </Typography>
-              </Box>
-              <Box mt={5} ml={5} mr={5}>
-                <Card variant="outlined">
-                  <Grid container spacing={2}>
-                    <Grid item xs={9}>
-                      <CardContent>
-                        <Typography
-                          variant="body1"
-                          align="left"
-                          component="div"
-                        >
-                          SHIPPING ADDRESS
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          align="left"
-                          component="div"
-                        >
-                          {orderDetails.shipping_address?.first_name}
-                          {orderDetails.shipping_address?.last_name}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          align="left"
-                          component="div"
-                        >
-                          {orderDetails.shipping_address?.address1}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          align="left"
-                          component="div"
-                        >
-                          {orderDetails.shipping_address?.city}{" "}
-                          {orderDetails.shipping_address?.province_code}{" "}
-                          {orderDetails.shipping_address?.zip}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          align="left"
-                          component="div"
-                        >
-                          {orderDetails.shipping_address?.country}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          align="left"
-                          component="div"
-                        >
-                          {orderDetails.shipping_address?.phone}
-                        </Typography>
-                      </CardContent>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <CardActions>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          size="small"
-                          sx={{
-                            width: "100%",
-                          }}
-                          onClick={() => {
-                            handleOpen();
-                          }}
-                        >
-                          Change
-                        </Button>
-                      </CardActions>
-                    </Grid>
-                  </Grid>
-                  <Box padding={1}>
-                    <Divider />
-                  </Box>
-                  <CardContent>
-                    <Typography variant="body1" align="left" component="div">
-                      SHIIPING METHOD
-                    </Typography>
-                    <Typography variant="body2" align="left" component="div">
-                      {orderDetails.shipping_lines[0]?.title}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Box>
-              <Product
-                products={products}
-                orderId={orderDetails.id}
-                shop={shop}
-                updated={updated}
-                setUpdated={setUpdated}
-              />
-            </Grid>
-
-            <Grid item xs={5}>
-              <Box bgcolor="lightgray" height="100%" pt={10}>
-                <Typography
-                  variant="body1"
-                  pt={2}
-                  align="left"
-                  pl={4}
-                  fontWeight="bold"
-                >
-                  PAYMENT METHOD
-                </Typography>
-                <Typography variant="body2" align="left" pl={4}>
-                  {orderDetails.payment_gateway_names} -{" "}
-                  {currency_symbols[orderDetails.currency]}
-                  {orderDetails.current_total_price}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  align="left"
-                  mt={3}
-                  pl={4}
-                  fontWeight="medium"
-                >
-                  BILLING ADDRESS
-                </Typography>
-                {/* <Typography variant="body2" align="left" pl={4}>
-                  {orderDetails.billing_address.first_name}{" "}
-                  {orderDetails.billing_address.last_name}
-                </Typography>
-                <Typography variant="body2" align="left" pl={4}>
-                  {orderDetails.billing_address.address1}
-                </Typography>
-                <Typography variant="body2" align="left" pl={4}>
-                  {orderDetails.billing_address.city},{" "}
-                  {orderDetails.billing_address.province_code}{" "}
-                  {orderDetails.billing_address.zip}
-                </Typography>
-                <Typography variant="body2" align="left" pl={4}>
-                  {orderDetails.billing_address.country}
-                </Typography>
-                <Typography variant="body2" align="left" pl={4}>
-                  {orderDetails.billing_address.phone}
-                </Typography> */}
-                <Box padding={3}>
-                  <Divider />
-                </Box>
-                <Grid container spacing={2}>
-                  <Grid item xs={8}>
-                    <Typography variant="body2" align="left" pl={4}>
-                      Subtotal
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="body2" align="left" pl={4}>
-                      {currency_symbols[orderDetails.currency]}{" "}
-                      {orderDetails.current_subtotal_price}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Typography variant="body2" align="left" pl={4}>
-                      Discount
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="body2" align="left" pl={4}>
-                      {currency_symbols[orderDetails.currency]}{" "}
-                      {orderDetails.current_total_discounts}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Typography variant="body2" align="left" pl={4}>
-                      Shipping
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="body2" align="left" pl={4}>
-                      {currency_symbols[orderDetails.currency]}{" "}
-                      {orderDetails.total_shipping_price_set.shop_money.amount}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Typography variant="body2" align="left" pl={4}>
-                      Taxes
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="body2" align="left" pl={4}>
-                      {currency_symbols[orderDetails.currency]}{" "}
-                      {orderDetails.current_total_tax}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Box padding={3}>
-                  <Divider />
-                </Box>
-                <Grid container spacing={2}>
-                  <Grid item xs={8}>
-                    <Typography variant="body2" align="left" pl={4}>
-                      Total
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="body2" align="left" pl={4}>
-                      {currency_symbols[orderDetails.currency]}{" "}
-                      {orderDetails.current_total_price}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Grid>
-          </Grid>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="child-modal-title"
-            aria-describedby="child-modal-description"
-          >
-            <Box sx={{ ...style }}>
-              <h3 id="child-modal-title">Shipping Details</h3>
-
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="First Name"
-                    variant="outlined"
-                    fullWidth
-                    value={shippingDetails?.first_name}
-                    onChange={(e) => {
-                      setShippingDetails({
-                        ...shippingDetails,
-                        first_name: e.target.value,
-                      });
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Last Name"
-                    variant="outlined"
-                    fullWidth
-                    value={shippingDetails?.last_name}
-                    onChange={(e) => {
-                      setShippingDetails({
-                        ...shippingDetails,
-                        last_name: e.target.value,
-                      });
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Address"
-                    variant="outlined"
-                    fullWidth
-                    value={shippingDetails?.address1}
-                    onChange={(e) => {
-                      setShippingDetails({
-                        ...shippingDetails,
-                        address1: e.target.value,
-                      });
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="City"
-                    variant="outlined"
-                    fullWidth
-                    value={shippingDetails?.city}
-                    onChange={(e) => {
-                      setShippingDetails({
-                        ...shippingDetails,
-                        city: e.target.value,
-                      });
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="State"
-                    variant="outlined"
-                    fullWidth
-                    value={shippingDetails?.province}
-                    onChange={(e) => {
-                      setShippingDetails({
-                        ...shippingDetails,
-                        province: e.target.value,
-                      });
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Zip"
-                    variant="outlined"
-                    fullWidth
-                    value={shippingDetails?.zip}
-                    onChange={(e) => {
-                      setShippingDetails({
-                        ...shippingDetails,
-                        zip: e.target.value,
-                      });
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Country"
-                    variant="outlined"
-                    fullWidth
-                    value={shippingDetails?.country}
-                    onChange={(e) => {
-                      setShippingDetails({
-                        ...shippingDetails,
-                        country: e.target.value,
-                      });
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Phone"
-                    variant="outlined"
-                    fullWidth
-                    value={shippingDetails?.phone}
-                    onChange={(e) => {
-                      setShippingDetails({
-                        ...shippingDetails,
-                        phone: e.target.value,
-                      });
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}></Grid>
-                <Grid item xs={6} align="right">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      changeAddress();
-                    }}
-                  >
-                    Save
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          </Modal>
-          {isAlertVisible && <AlertComponent text="Shipping Address Changed" />}
-        </div>
+        </>
       )}
     </>
   );
